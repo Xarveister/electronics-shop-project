@@ -5,6 +5,7 @@ from src.item import Item
 item1 = Item("Смартфон", 10000, 20)
 item2 = Item("Ноутбук", 20000, 5)
 
+
 def test_main():
     assert item1.price == 10000
     assert item1.quantity == 20
