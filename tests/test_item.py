@@ -19,3 +19,6 @@ def test_calculate_total_price():
 def test_apply_discount():
     item2.apply_discount()
     assert 20000 * Item.pay_rate == 20000
+    Item.pay_rate = 0.8
+    item1.apply_discount()
+    assert item1.price == 8000
