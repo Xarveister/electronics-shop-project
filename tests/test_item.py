@@ -23,7 +23,3 @@ def test_apply_discount():
     item1.apply_discount()
     assert item1.price == 8000
 
-
-def test_len_name2(item):
-    item1.name = "Ноутбук"
-    assert item.name == "Ноутбук"

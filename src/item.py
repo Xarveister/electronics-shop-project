@@ -20,6 +20,7 @@ class Item:
         self.__name = name
         self.price = price
         self.quantity = quantity
+        Item.all.append(self)
 
     @property
     def name(self):
@@ -33,16 +34,18 @@ class Item:
             self.__name = item_name
 
     @classmethod
-    def instantiate_from_csv(cls) -> None:
-        Item.all = []
-        with open('C:/Users/Евгений/PycharmProjects/electronics-shop-project/src/items.csv', 'r') as file:
-            reader = csv.DictReader(file)
+    def instantiate_from_csv(cls):
+        cls.all = []
+        current_dir = os.path.dirname(os.path.abspath(__file__))
+        data = os.path.join(current_dir, 'items.csv')
+        with open(data, encoding="cp1251") as f:
+            reader = csv.DictReader(f)
             for row in reader:
-                name = row['name']
-                price = float(row['price'])
-                quantity = int(row['quantity'])
-                item = Item(name, price, quantity)
-                Item.all.append(item)
+                cls(row["name"], row["price"], row["quantity"])
+        print(cls.all)
+
+    def __repr__(self) -> str:
+        return f"Item(name='{self.name}', price='{self.price}', quantity='{self.quantity}')"
 
     @staticmethod
     def string_to_number():
