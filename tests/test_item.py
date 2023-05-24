@@ -23,3 +23,7 @@ def test_apply_discount():
     item1.apply_discount()
     assert item1.price == 8000
 
+def test_instantiate_from_csv():
+    Item.instantiate_from_csv()
+    assert len(Item.all) == 5
+    assert isinstance(Item.all[0], Item)
