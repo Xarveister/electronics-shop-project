@@ -27,3 +27,8 @@ def test_instantiate_from_csv():
     Item.instantiate_from_csv()
     assert len(Item.all) == 5
     assert isinstance(Item.all[0], Item)
+
+def test_name_too_long_len():
+    """Название товара слишком длинное"""
+    with pytest.raises(Exception):
+        item.name = 'ТелефонТелефонТелефон'
