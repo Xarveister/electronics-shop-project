@@ -22,6 +22,12 @@ class Item:
         self.quantity = quantity
         Item.all.append(self)
 
+    def __repr__(self) -> str:
+        return f"{self.__class__.__name__}('{self.__name}', {self.price}, {self.quantity})"
+
+    def __str__(self):
+        return f'{self.__name}'
+
     @property
     def name(self):
         return self.__name
@@ -42,9 +48,6 @@ class Item:
             for row in reader:
                 cls(row["name"], row["price"], row["quantity"])
         print(cls.all)
-
-    def __repr__(self) -> str:
-        return f"Item(name='{self.name}', price='{self.price}', quantity='{self.quantity}')"
 
     @staticmethod
     def string_to_number():
