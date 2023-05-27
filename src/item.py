@@ -50,7 +50,7 @@ class Item:
         print(cls.all)
 
     @staticmethod
-    def string_to_number():
+    def string_to_number(line: str) -> int:
         """метод, возвращающий число из числа-строки"""
         a = float(line)
         return int(a)

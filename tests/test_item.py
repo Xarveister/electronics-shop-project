@@ -6,6 +6,11 @@ item1 = Item("Смартфон", 10000, 20)
 item2 = Item("Ноутбук", 20000, 5)
 
 
+@pytest.fixture
+def get_item():
+    return Item("Телевизор", 10000, 4)
+
+
 def test_main():
     assert item1.price == 10000
     assert item1.quantity == 20
@@ -23,14 +28,17 @@ def test_apply_discount():
     item1.apply_discount()
     assert item1.price == 8000
 
+
 def test_instantiate_from_csv():
     Item.instantiate_from_csv()
     assert len(Item.all) == 5
     assert isinstance(Item.all[0], Item)
 
-def test_name_too_long_len():
+
+def test_name_too_long_len(get_item):
     """Название товара слишком длинное"""
     with pytest.raises(Exception):
+        item = get_item
         item.name = 'ТелефонТелефонТелефон'
 
 
