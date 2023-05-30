@@ -9,7 +9,7 @@ class Item:
     pay_rate = 1
     all = []
 
-    def __init__(self, name: str, price: float, quantity: int):
+    def __init__(self, name: str, price: float, quantity: int) -> object:
         """
         Создание экземпляра класса item.
 
@@ -54,6 +54,11 @@ class Item:
         """метод, возвращающий число из числа-строки"""
         a = float(line)
         return int(a)
+
+    def __add__(self, other):
+        if isinstance(other, Item):
+            return self.quantity + other.quantity
+        raise ValueError('Складывать можно только объекты Item и дочерние от них.')
 
     def calculate_total_price(self) -> float:
         """
