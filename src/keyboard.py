@@ -29,7 +29,7 @@ class MixinLang:
 
     @language.setter
     def language(self, value):
-        raise AttributeError('property language of KeyBoard object has no setter')
+        raise AttributeError('Нельзя менять значение не через функцию')
 
 
 class KeyBoard(Item, MixinLang):
