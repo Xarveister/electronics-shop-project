@@ -9,11 +9,6 @@ class MixinLang:
         self._language = MixinLang.LANGUAGES[0]
 
     def change_lang(self):
-        '''
-        Меняет язык раскладки
-        на следующий в списке
-        доступных языков.
-        '''
         if MixinLang.eng:
             self._language = MixinLang.LANGUAGES[1]
             MixinLang.eng = False
@@ -26,10 +21,6 @@ class MixinLang:
     @property
     def language(self):
         return self._language
-
-    @language.setter
-    def language(self, value):
-        raise AttributeError('Нельзя менять значение не через функцию')
 
 
 class KeyBoard(Item, MixinLang):
