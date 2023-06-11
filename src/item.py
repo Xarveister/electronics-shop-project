@@ -1,5 +1,6 @@
 import os
 import csv
+from src.exc import InstantiateCSVError
 
 
 class Item:
@@ -40,37 +41,46 @@ class Item:
         self.__name = value
 
     @classmethod
-    def instantiate_from_csv(cls):
+    def instantiate_from_csv(cls) -> None:
         cls.all = []
-        current_dir = os.path.dirname(os.path.abspath(__file__))
-        data = os.path.join(current_dir, 'items.csv')
-        with open(data, encoding="cp1251") as f:
-            reader = csv.DictReader(f)
-            for row in reader:
-                cls(row["name"], row["price"], row["quantity"])
-        print(cls.all)
+        try:
+            current_dir = os.path.dirname(os.path.abspath(__file__))
+            data = os.path.join(current_dir, 'items.csv')
+            with open(data, encoding="cp1251") as f:
+                reader = csv.DictReader(f)
+                for row in reader:
+                    if len(row['name']) == 0 or int(row['price']) < 1 or int(row['quantity']) < 0:
+                        raise InstantiateCSVError('Файл item.csv поврежден')
+                    cls(row["name"], row["price"], row["quantity"])
+            print(cls.all)
+        except FileNotFoundError:
+            raise FileNotFoundError('Отсутствует файл item.csv')
 
-    @staticmethod
-    def string_to_number(line: str) -> int:
-        """метод, возвращающий число из числа-строки"""
-        a = float(line)
-        return int(a)
 
-    def __add__(self, other):
-        if isinstance(other, Item):
-            return self.quantity + other.quantity
-        raise ValueError('Складывать можно только объекты Item и дочерние от них.')
+@staticmethod
+def string_to_number(line: str) -> int:
+    """Метод, возвращающий число из числа-строки"""
+    a = float(line)
+    return int(a)
 
-    def calculate_total_price(self) -> float:
-        """
-        Рассчитывает общую стоимость конкретного товара в магазине.
 
-        :return: Общая стоимость товара.
-        """
-        return self.price * self.quantity
+def __add__(self, other):
+    if isinstance(other, Item):
+        return self.quantity + other.quantity
+    raise ValueError('Складывать можно только объекты Item и дочерние от них.')
 
-    def apply_discount(self):
-        """
-        Применяет установленную скидку для конкретного товара.
-        """
-        self.price = int(self.price * self.pay_rate)
+
+def calculate_total_price(self) -> float:
+    """
+    Рассчитывает общую стоимость конкретного товара в магазине.
+
+    :return: Общая стоимость товара.
+    """
+    return self.price * self.quantity
+
+
+def apply_discount(self):
+    """
+    Применяет установленную скидку для конкретного товара.
+    """
+    self.price = int(self.price * self.pay_rate)

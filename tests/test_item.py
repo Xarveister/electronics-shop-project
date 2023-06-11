@@ -1,6 +1,9 @@
 """Здесь надо написать тесты с использованием pytest для модуля item."""
+import os
+
 import pytest
 from src.item import Item
+from src.exc import InstantiateCSVError
 
 item1 = Item("Смартфон", 10000, 20)
 item2 = Item("Ноутбук", 20000, 5)
@@ -33,6 +36,14 @@ def test_instantiate_from_csv():
     Item.instantiate_from_csv()
     assert len(Item.all) == 5
     assert isinstance(Item.all[0], Item)
+
+    Item.CSV = "NOT_FOUND"
+    with pytest.raises(FileNotFoundError):
+        Item.instantiate_from_csv()
+
+    Item.CSV = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'test.csv')
+    with pytest.raises(InstantiateCSVError):
+        Item.instantiate_from_csv()
 
 
 def test_name_too_long_len(get_item):
